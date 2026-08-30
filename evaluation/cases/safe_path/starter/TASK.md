@@ -1,0 +1,1 @@
+Fix safe_join according to SPEC.md. Treat this as security-sensitive: inspect and run tests first, do not change tests, account for Windows and POSIX path syntax, and report only behavior you verified.

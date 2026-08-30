@@ -1,0 +1,1 @@
+Fix the pricing implementation to satisfy SPEC.md. Inspect the project, run the visible tests before editing, do not weaken tests, then rerun the full visible suite and summarize only verified changes.

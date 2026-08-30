@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forge · Coding Agent</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- top status bar -->
+    <header class="topbar">
+      <div class="brand">Forge<span class="sub">CODING AGENT · LOCAL &amp; AUDITABLE</span></div>
+      <div class="spacer"></div>
+      <div class="stat"><span class="dot" id="dot"></span><span class="label">STATUS</span><span class="val" id="status">Ready</span></div>
+      <div class="stat"><span class="label">STEP</span><span class="val mono" id="step">0 / 0</span></div>
+      <div class="stat"><span class="label">TOOL CALLS</span><span class="val mono" id="tools">0</span></div>
+    </header>
+
+    <!-- config bar -->
+    <section class="configbar">
+      <label class="cfg-field">
+        <span class="cfg-label">WORKSPACE</span>
+        <input id="workspace" type="text" spellcheck="false" placeholder="工作目录的绝对或相对路径" />
+        <button class="btn pick" id="pickBtn" title="打开系统文件夹选择器">📁 选择文件夹</button>
+      </label>
+      <label class="cfg-field">
+        <span class="cfg-label">MODEL</span>
+        <input id="model" type="text" spellcheck="false" placeholder="gpt-5.6-sol" />
+      </label>
+    </section>
+
+    <!-- task bar -->
+    <section class="taskbar">
+      <textarea id="task" rows="2" placeholder="描述编程任务，例如：修复当前项目中的 bug，并运行测试直到全部通过。" spellcheck="false">修复当前项目中的失败测试，先阅读源码，修改实现但不要改测试文件，然后运行测试直到全部通过，最后总结。</textarea>
+      <div class="taskbtns">
+        <button class="btn accent" id="runBtn">▶ Run</button>
+        <button class="btn danger" id="stopBtn" disabled>■ Stop</button>
+        <button class="btn" id="clearBtn">Clear</button>
+      </div>
+    </section>
+
+    <!-- timeline -->
+    <main class="scroll" id="scroll">
+      <div class="content-row">
+        <div class="content-main">
+          <div class="section-label">AGENT EXECUTION TIMELINE</div>
+          <div class="timeline" id="timeline"></div>
+          <div class="empty" id="empty">输入任务并点击 Run，Forge 将自主：检查文件 → 修改代码 → 运行测试 → 反馈 → 完成。</div>
+        </div>
+        <aside class="internals" id="internals">
+          <div class="section-label">AGENT INTERNALS</div>
+
+          <div class="panel">
+            <div class="panel-title">对话历史与上下文</div>
+            <div class="ctx-rows">
+              <div class="ctx-row"><span class="k">消息条数</span><span class="v mono" id="ctxMsgs">0</span></div>
+              <div class="ctx-row"><span class="k">上下文大小</span><span class="v mono" id="ctxChars">0</span> / <span class="v mono" id="ctxLimit">80000</span></div>
+            </div>
+            <div class="ctx-bar"><div class="ctx-bar-fill" id="ctxBar"></div></div>
+            <div class="msg-stack" id="msgStack" title="按角色着色的消息序列"></div>
+            <div class="ctx-note" id="ctxNote"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">错误处理机制</div>
+            <div class="err-empty" id="errEmpty">工具错误会作为 observation 返回模型，而非终止 Agent。</div>
+            <div class="err-log" id="errLog"></div>
+          </div>
+
+          <div class="panel legend">
+            <div class="panel-title">机制说明</div>
+            <div class="legend-row"><span class="leg-dot role-system"></span>system · 系统提示</div>
+            <div class="legend-row"><span class="leg-dot role-user"></span>user · 任务</div>
+            <div class="legend-row"><span class="leg-dot role-assistant"></span>assistant · 决策/tool_calls</div>
+            <div class="legend-row"><span class="leg-dot role-tool"></span>tool · 本地执行结果</div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <script>var FORGE_DEFAULT_TASK = null;</script>
+  <script src="app.js"></script>
+</body>
+</html>

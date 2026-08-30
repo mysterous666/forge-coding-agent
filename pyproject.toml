@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "forge-coding-agent"
+version = "0.1.0"
+description = "A small, auditable coding agent built without an agent framework"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "左迅" }]
+dependencies = ["openai>=2.0,<3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-cov>=5.0"]
+
+[project.scripts]
+forge-agent = "forge_agent.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/forge_agent"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+pythonpath = ["src"]
