@@ -2,7 +2,6 @@
 
 import json
 import threading
-from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -10,13 +9,6 @@ import pytest
 from forge_agent.agent import Agent
 from forge_agent.model import ModelReply, ToolCall
 from forge_agent.workspace import ToolRegistry, Workspace
-
-
-@pytest.fixture
-def tmp_path() -> Path:
-    path = Path.cwd() / ".test_tmp" / "events"
-    path.mkdir(parents=True, exist_ok=True)
-    return path
 
 
 class ScriptedProvider:
